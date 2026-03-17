@@ -1,0 +1,10 @@
+{
+  "name": "sekimoto-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio site for Sekimoto Takeaki",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {}
+}

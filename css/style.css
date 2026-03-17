@@ -1,0 +1,818 @@
+/* ========================================
+   Reset & Base
+======================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f8f7f4;
+  --bg-card: #ffffff;
+  --text: #1a1a1a;
+  --text-sub: #666;
+  --text-light: #999;
+  --accent: #1a56db;
+  --accent-hover: #1244b8;
+  --border: #e5e3df;
+  --tag-bg: #f0eeea;
+  --nav-h: 64px;
+  --font-serif: 'Noto Serif JP', 'Georgia', serif;
+  --font-sans: 'Noto Sans JP', 'Helvetica Neue', sans-serif;
+  --font-en: 'Inter', 'Helvetica Neue', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ========================================
+   Nav
+======================================== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  background: rgba(248, 247, 244, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+.nav-logo {
+  font-family: var(--font-en);
+  font-weight: 200;
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+  color: var(--text);
+}
+
+.nav-logo a {
+  color: var(--text);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 36px;
+}
+
+.nav-links a {
+  font-family: var(--font-en);
+  font-size: 0.82rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: var(--text-sub);
+  transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--text);
+}
+
+.nav-links a.active {
+  border-bottom: 1px solid var(--text);
+  padding-bottom: 2px;
+}
+
+/* ========================================
+   TOP — Hero
+======================================== */
+.top-main {
+  padding-top: var(--nav-h);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: calc(100vh - var(--nav-h));
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 48px;
+  gap: 80px;
+  align-items: start;
+}
+
+.hero-image-wrap {
+  position: sticky;
+  top: calc(var(--nav-h) + 40px);
+}
+
+.hero-image-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: linear-gradient(145deg, #2c2c2c 0%, #1a1a1a 100%);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-image-placeholder .initials {
+  font-family: var(--font-en);
+  font-weight: 100;
+  font-size: 5rem;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.15);
+}
+
+/* If you want to use the actual photo:
+.hero-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+*/
+
+.hero-content {
+  padding-top: 20px;
+}
+
+.hero-name-block {
+  margin-bottom: 32px;
+}
+
+.name-ja {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+}
+
+.name-en {
+  font-family: var(--font-en);
+  font-size: 0.9rem;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  color: var(--text-sub);
+  margin-top: 8px;
+}
+
+.role {
+  margin-top: 16px;
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.role .company {
+  color: var(--text-sub);
+  font-weight: 300;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 5px 12px;
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-sub);
+  letter-spacing: 0.03em;
+  transition: background 0.2s;
+}
+
+.tag:hover {
+  background: var(--border);
+}
+
+.bio {
+  margin-bottom: 36px;
+}
+
+.bio p {
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.bio-sub {
+  font-size: 0.82rem !important;
+  color: var(--text-sub) !important;
+}
+
+.cta-links {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 28px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-en);
+  font-size: 0.82rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  border-radius: 2px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 1px solid var(--text);
+  color: var(--text);
+  font-family: var(--font-en);
+  font-size: 0.82rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ========================================
+   TOP — Achievements
+======================================== */
+.achievements, .career-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 48px;
+  border-top: 1px solid var(--border);
+}
+
+.section-title {
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.achievement-card {
+  background: var(--bg-card);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.achievement-card:hover {
+  background: var(--tag-bg);
+}
+
+.achievement-client {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.03em;
+}
+
+.achievement-desc {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+/* ========================================
+   TOP — Career Timeline
+======================================== */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 32px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+.timeline-year {
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--text-sub);
+  padding-top: 4px;
+}
+
+.timeline-item.current .timeline-year {
+  color: var(--accent);
+}
+
+.timeline-company {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.timeline-role {
+  font-size: 0.82rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.timeline-desc {
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  line-height: 1.7;
+}
+
+/* ========================================
+   Works Page
+======================================== */
+.works-main {
+  padding-top: var(--nav-h);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
+.page-header {
+  padding: 80px 0 48px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+}
+
+.page-title-en {
+  font-family: var(--font-en);
+  font-size: 3.5rem;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.page-title-ja {
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  margin-top: 12px;
+  letter-spacing: 0.1em;
+}
+
+.works-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.filter-btn {
+  padding: 6px 18px;
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  border-radius: 2px;
+  color: var(--text-sub);
+  transition: all 0.2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.works-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  margin-bottom: 80px;
+}
+
+.work-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 40px;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.work-card.hidden {
+  display: none;
+}
+
+.work-card:hover {
+  background: transparent;
+}
+
+.work-card:hover .work-body {
+  transform: translateX(4px);
+}
+
+.work-number {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  font-weight: 200;
+  color: var(--text-light);
+  letter-spacing: 0.1em;
+  padding-top: 6px;
+}
+
+.work-cat-label {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.work-body {
+  transition: transform 0.3s ease;
+}
+
+.work-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  letter-spacing: 0.05em;
+}
+
+.work-desc {
+  font-size: 0.87rem;
+  line-height: 1.9;
+  color: var(--text-sub);
+  margin-bottom: 20px;
+  max-width: 680px;
+}
+
+.work-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.work-tags span {
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-sub);
+}
+
+.work-card.featured .work-title::before {
+  content: '★ ';
+  font-size: 0.7rem;
+  color: var(--accent);
+}
+
+/* ========================================
+   Novel Page
+======================================== */
+.page-novel {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Fixed nav already handled by .nav */
+
+.novel-header {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(248, 247, 244, 0.95);
+  backdrop-filter: blur(8px);
+  height: 72px;
+}
+
+.novel-title-display {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+}
+
+.novel-author {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  margin-top: 3px;
+  letter-spacing: 0.08em;
+}
+
+.novel-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.novel-controls button {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  border-radius: 2px;
+  color: var(--text-sub);
+  font-family: var(--font-sans);
+  transition: all 0.2s;
+}
+
+.novel-controls button:hover {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.scroll-hint {
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  color: var(--text-light);
+  letter-spacing: 0.1em;
+  animation: fadeInOut 3s ease-in-out infinite;
+  transition: opacity 0.5s;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Horizontal scroll container */
+.novel-container {
+  position: fixed;
+  top: calc(var(--nav-h) + 72px);
+  left: 0;
+  right: 0;
+  bottom: 51px; /* footer + progress */
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+
+.novel-container:active {
+  cursor: grabbing;
+}
+
+.novel-container::-webkit-scrollbar {
+  height: 0;
+}
+
+/* Vertical text */
+.novel-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  height: 100%;
+  display: block;
+  padding: 48px 80px;
+  width: max-content;
+  /* Allow content to grow rightward as columns form */
+}
+
+.novel-chapter {
+  display: inline-block;
+  height: 100%;
+  margin-left: 4em; /* space between chapters */
+}
+
+.novel-chapter:first-child {
+  margin-left: 0;
+}
+
+.chapter-title {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-light);
+  letter-spacing: 0.25em;
+  padding-right: 1em;
+  border-right: 1px solid var(--border);
+  margin-right: 1.5em;
+}
+
+.novel-chapter p {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 2.2;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  margin-right: 1.5em; /* column gap within a paragraph wrap */
+}
+
+.novel-end {
+  display: inline-block;
+  height: 100%;
+  margin-left: 5em;
+  vertical-align: bottom;
+}
+
+.end-mark {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.4em;
+  color: var(--text-sub);
+}
+
+.author-note {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  line-height: 2;
+  margin-top: 2em;
+  max-width: 8em;
+}
+
+/* Progress bar */
+.novel-progress {
+  position: fixed;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--border);
+  z-index: 90;
+}
+
+.novel-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* Footer novel */
+.footer-novel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 48px;
+  border-top: 1px solid var(--border);
+  background: rgba(248, 247, 244, 0.95);
+  font-size: 0.7rem;
+  color: var(--text-light);
+  z-index: 90;
+}
+
+/* ========================================
+   Footer
+======================================== */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 48px;
+  text-align: center;
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+}
+
+/* ========================================
+   Animations
+======================================== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   Responsive
+======================================== */
+@media (max-width: 900px) {
+  .nav {
+    padding: 0 24px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 48px 24px;
+    gap: 40px;
+  }
+
+  .hero-image-wrap {
+    position: static;
+    max-width: 320px;
+  }
+
+  .achievement-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .achievements, .career-section {
+    padding: 48px 24px;
+  }
+
+  .works-main {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .novel-text {
+    padding: 32px 40px;
+    gap: 48px;
+  }
+
+  .novel-header {
+    padding: 16px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .name-ja {
+    font-size: 1.8rem;
+  }
+
+  .achievement-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .work-card {
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    padding: 32px 0;
+  }
+
+  .timeline-item {
+    grid-template-columns: 90px 1fr;
+    gap: 16px;
+  }
+}
