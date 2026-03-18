@@ -14,9 +14,21 @@ if (!document.body.classList.contains('page-novel')) {
         observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
 
   fadeEls.forEach(el => observer.observe(el));
+
+  // Fallback: if page is loaded fully scrolled (e.g. back nav), show all
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      fadeEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 200) {
+          el.classList.add('visible');
+        }
+      });
+    }, 100);
+  });
 }
 
 // =============================================
@@ -24,6 +36,17 @@ if (!document.body.classList.contains('page-novel')) {
 // =============================================
 const filterBtns = document.querySelectorAll('.filter-btn');
 const workCards = document.querySelectorAll('.work-card');
+
+function updateYearMarkers() {
+  const worksGrid = document.getElementById('worksGrid');
+  if (!worksGrid || !worksGrid.classList.contains('timeline-mode')) return;
+  document.querySelectorAll('.year-marker').forEach(marker => {
+    const year = marker.dataset.forYear;
+    const hasVisible = Array.from(document.querySelectorAll(`.work-card[data-year="${year}"]`))
+      .some(c => !c.classList.contains('hidden'));
+    marker.classList.toggle('year-empty', !hasVisible);
+  });
+}
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -40,8 +63,63 @@ filterBtns.forEach(btn => {
         card.classList.add('hidden');
       }
     });
+    updateYearMarkers();
   });
 });
+
+// Timeline toggle
+const timelineToggle = document.getElementById('timelineToggle');
+const worksGrid = document.getElementById('worksGrid');
+timelineToggle?.addEventListener('click', () => {
+  const isActive = worksGrid.classList.toggle('timeline-mode');
+  timelineToggle.classList.toggle('active', isActive);
+  if (isActive) updateYearMarkers();
+});
+
+// =============================================
+// Work tab switching
+// =============================================
+const workTabs = document.querySelectorAll('.work-tab');
+const novelWorks = document.querySelectorAll('.novel-work');
+
+function switchWork(idx) {
+  workTabs.forEach(t => t.classList.remove('active'));
+  novelWorks.forEach(w => w.classList.remove('active'));
+  document.querySelector(`.work-tab[data-work="${idx}"]`)?.classList.add('active');
+  document.querySelector(`.novel-work[data-work="${idx}"]`)?.classList.add('active');
+  document.querySelectorAll('.toc-item').forEach(ti => {
+    ti.classList.toggle('active', ti.dataset.work === String(idx));
+  });
+  const nc = document.getElementById('novelContainer');
+  if (nc) { nc.scrollLeft = nc.scrollWidth; }
+  const pb = document.getElementById('progressBar');
+  if (pb) pb.style.width = '0%';
+}
+
+workTabs.forEach(tab => {
+  tab.addEventListener('click', () => switchWork(tab.dataset.work));
+});
+
+// TOC toggle
+const tocToggle = document.getElementById('tocToggle');
+const tocPanel = document.getElementById('tocPanel');
+if (tocToggle && tocPanel) {
+  tocToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    tocPanel.classList.toggle('open');
+  });
+  document.addEventListener('click', e => {
+    if (!tocPanel.contains(e.target) && e.target !== tocToggle) {
+      tocPanel.classList.remove('open');
+    }
+  });
+  tocPanel.querySelectorAll('.toc-item').forEach(item => {
+    item.addEventListener('click', () => {
+      switchWork(item.dataset.work);
+      tocPanel.classList.remove('open');
+    });
+  });
+}
 
 // =============================================
 // Novel: horizontal scroll via wheel + drag

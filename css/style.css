@@ -130,22 +130,13 @@ a {
   overflow: hidden;
 }
 
-.hero-image-placeholder .initials {
-  font-family: var(--font-en);
-  font-weight: 100;
-  font-size: 5rem;
-  letter-spacing: 0.3em;
-  color: rgba(255,255,255,0.15);
-}
-
-/* If you want to use the actual photo:
 .hero-image-placeholder img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  display: block;
 }
-*/
 
 .hero-content {
   padding-top: 20px;
@@ -406,9 +397,64 @@ a {
 
 .works-filter {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 48px;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.timeline-toggle {
+  padding: 6px 16px;
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  border-radius: 2px;
+  color: var(--text-sub);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.timeline-toggle:hover,
+.timeline-toggle.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.year-marker {
+  display: none;
+  grid-column: 1 / -1;
+  padding: 32px 0 12px;
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+}
+
+.year-marker:first-child {
+  border-top: none;
+  padding-top: 16px;
+}
+
+.works-grid.timeline-mode .year-marker {
+  display: block;
+}
+
+.works-grid.timeline-mode .year-marker.year-empty {
+  display: none;
 }
 
 .filter-btn {
@@ -526,6 +572,22 @@ a {
   color: var(--accent);
 }
 
+.work-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: var(--font-en);
+  font-size: 0.73rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.work-link:hover {
+  border-bottom-color: var(--accent);
+}
+
 /* ========================================
    Novel Page
 ======================================== */
@@ -545,31 +607,83 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 48px;
+  padding: 0 48px;
   border-bottom: 1px solid var(--border);
   background: rgba(248, 247, 244, 0.95);
   backdrop-filter: blur(8px);
-  height: 72px;
+  height: 56px;
+  gap: 24px;
 }
 
-.novel-title-display {
+/* Work tabs */
+.novel-work-selector {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: 56px;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.novel-work-selector::-webkit-scrollbar { display: none; }
+
+.work-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  border-right: 1px solid var(--border);
+  text-align: left;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.work-tab:first-child { border-left: 1px solid var(--border); }
+
+.work-tab:hover {
+  background: var(--tag-bg);
+}
+
+.work-tab.active {
+  border-bottom-color: var(--text);
+  background: var(--bg-card);
+}
+
+.work-tab-title {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
+  font-size: 0.82rem;
+  color: var(--text);
+  display: block;
+  max-width: 20em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.novel-author {
-  font-size: 0.75rem;
-  color: var(--text-sub);
-  margin-top: 3px;
-  letter-spacing: 0.08em;
+.work-tab.active .work-tab-title {
+  font-weight: 500;
+}
+
+.work-tab-type {
+  font-family: var(--font-en);
+  font-size: 0.65rem;
+  font-weight: 300;
+  color: var(--text-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  display: block;
 }
 
 .novel-controls {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .novel-controls button {
@@ -604,10 +718,93 @@ a {
   50% { opacity: 1; }
 }
 
+/* TOC panel */
+.toc-panel {
+  position: fixed;
+  top: calc(var(--nav-h) + 56px + 16px);
+  left: 0;
+  width: 300px;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  z-index: 85;
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.toc-panel.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.toc-item:last-child { border-bottom: none; }
+
+.toc-item:hover { background: var(--tag-bg); }
+
+.toc-item.active { background: var(--bg-card); }
+
+.toc-num {
+  font-family: var(--font-en);
+  font-size: 0.65rem;
+  font-weight: 200;
+  color: var(--text-light);
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.toc-info { flex: 1; min-width: 0; }
+
+.toc-title-text {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  color: var(--text);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-item.active .toc-title-text { font-weight: 500; }
+
+.toc-type-label {
+  font-family: var(--font-en);
+  font-size: 0.63rem;
+  font-weight: 300;
+  color: var(--text-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  display: block;
+}
+
+.toc-reading {
+  font-family: var(--font-en);
+  font-size: 0.62rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  display: none;
+}
+
+.toc-item.active .toc-reading { display: block; }
+
 /* Horizontal scroll container */
 .novel-container {
   position: fixed;
-  top: calc(var(--nav-h) + 72px);
+  top: calc(var(--nav-h) + 56px + 16px); /* +16px gap below header */
   left: 0;
   right: 0;
   bottom: 51px; /* footer + progress */
@@ -625,6 +822,87 @@ a {
   height: 0;
 }
 
+/* Work visibility */
+.novel-work {
+  display: none;
+  height: 100%;
+}
+
+.novel-work.active {
+  display: inline-block;
+}
+
+/* Title column */
+.novel-work-title-col {
+  display: inline-block;
+  height: 100%;
+  vertical-align: top;
+  border-left: 1px solid var(--border);
+  padding-left: 2em;
+  margin-left: 3em;
+}
+
+.novel-work:first-child .novel-work-title-col {
+  margin-left: 0;
+  border-left: none;
+}
+
+.work-main-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  line-height: 1.8;
+  color: var(--text);
+  max-height: 18em;
+  margin-bottom: 0;
+}
+
+.work-main-title-sub {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  letter-spacing: 0.1em;
+  margin-top: 0.5em;
+}
+
+.work-main-author {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-light);
+  letter-spacing: 0.15em;
+  margin-top: 2em;
+}
+
+/* Section elements within novel */
+.novel-text .section-break {
+  font-size: 0.85rem;
+  letter-spacing: 0.5em;
+  color: var(--text-light);
+  margin-right: 2em;
+}
+
+.novel-text .chapter-num {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  color: var(--text-sub);
+  border-right: 1px solid var(--border);
+  padding-right: 1em;
+  margin-right: 2em;
+}
+
+.novel-text .section-heading {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--text);
+  border-right: 1px solid var(--border);
+  padding-right: 1em;
+  margin-right: 1.5em;
+}
+
 /* Vertical text */
 .novel-text {
   writing-mode: vertical-rl;
@@ -634,6 +912,8 @@ a {
   padding: 48px 80px;
   width: max-content;
   /* Allow content to grow rightward as columns form */
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .novel-chapter {
@@ -789,10 +1069,7 @@ a {
   }
 
   .novel-header {
-    padding: 16px 24px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    padding: 0 24px;
   }
 }
 

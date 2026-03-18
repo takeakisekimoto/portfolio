@@ -3,6 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function(){
+      if(sessionStorage.getItem('auth')==='ok') return;
+      document.addEventListener('DOMContentLoaded', function(){
+        var overlay = document.createElement('div');
+        overlay.id = 'auth-overlay';
+        overlay.style.cssText = 'position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;font-family:sans-serif;gap:12px;';
+        overlay.innerHTML = '<p style="font-size:14px;color:#333;margin:0 0 8px;">このサイトはパスワードで保護されています</p>'
+          + '<input id="auth-user" type="text" placeholder="ユーザー名" style="padding:8px 12px;border:1px solid #ccc;border-radius:4px;font-size:14px;width:220px;">'
+          + '<input id="auth-pass" type="password" placeholder="パスワード" style="padding:8px 12px;border:1px solid #ccc;border-radius:4px;font-size:14px;width:220px;">'
+          + '<button id="auth-btn" style="padding:8px 24px;background:#222;color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer;">入る</button>'
+          + '<p id="auth-err" style="color:red;font-size:12px;margin:0;display:none;">ユーザー名またはパスワードが違います</p>';
+        document.body.appendChild(overlay);
+        function check(){
+          var u = document.getElementById('auth-user').value;
+          var p = document.getElementById('auth-pass').value;
+          if(u==='goodpatch' && p==='goodpatch'){
+            sessionStorage.setItem('auth','ok');
+            overlay.remove();
+          } else {
+            document.getElementById('auth-err').style.display='block';
+          }
+        }
+        document.getElementById('auth-btn').addEventListener('click', check);
+        document.getElementById('auth-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') check(); });
+      });
+    })();
+  </script>
   <title>Works | 関本 武晃</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,143 +54,160 @@
     </header>
 
     <div class="works-filter">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="branding">Branding</button>
-      <button class="filter-btn" data-filter="rd">R&D</button>
-      <button class="filter-btn" data-filter="web">Web</button>
-      <button class="filter-btn" data-filter="exhibition">Exhibition</button>
-      <button class="filter-btn" data-filter="hr">HRD</button>
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="exhibition">Exhibition</button>
+        <button class="filter-btn" data-filter="branding">Branding</button>
+        <button class="filter-btn" data-filter="rd">R&D</button>
+        <button class="filter-btn" data-filter="media">Media</button>
+        <button class="filter-btn" data-filter="research">Research</button>
+      </div>
+      <button class="timeline-toggle" id="timelineToggle">Timeline</button>
     </div>
 
-    <div class="works-grid">
+    <div class="works-grid" id="worksGrid">
 
-      <article class="work-card" data-category="rd">
+      <div class="year-marker" data-for-year="2025">2025</div>
+
+      <article class="work-card featured" data-category="exhibition" data-year="2025">
         <div class="work-number">01</div>
         <div class="work-body">
-          <span class="work-cat-label">R&D / 組織支援</span>
-          <h2 class="work-title">大手電気通信事業会社<br>R&D組織支援</h2>
+          <span class="work-cat-label">Exhibition / 大阪万博2025</span>
+          <h2 class="work-title">Cybernetic being Life<br>大阪万博 期間展示</h2>
           <p class="work-desc">
-            通信大手のR&D部門における組織変革プロジェクト。デザイン思考を導入し、研究者・エンジニアが顧客起点で発想するための組織体制と業務フローの再設計を支援。アイデエーションセッションのファシリテーションから、プロセス定着まで伴走。
+            5年間のムーンショット型研究開発プログラム「プロジェクト サイバネティック・アバター」の集大成となる万博期間展示のクリエイティブディレクション。「異なる身体を持ったら、あなたはどんな能力を得る？」をテーマに、アバターロボットによる移動体験・脳波制御ロボットアームなど体験型コンテンツ設計と展示体験開発を統括。
           </p>
           <div class="work-tags">
-            <span>組織デザイン</span>
-            <span>ファシリテーション</span>
-            <span>デザインシンキング</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="work-card" data-category="hr">
-        <div class="work-number">02</div>
-        <div class="work-body">
-          <span class="work-cat-label">HRD / 中央省庁</span>
-          <h2 class="work-title">デザイン手法を用いた<br>人材育成プログラム設計</h2>
-          <p class="work-desc">
-            中央省庁の官僚向けに、デザイン手法を活用した人材育成プログラムを設計・実施。政策立案にデザイン思考・サービスデザインを組み込むためのカリキュラム開発から、ワークショップ運営、評価設計まで包括的に担当。
-          </p>
-          <div class="work-tags">
-            <span>プログラムデザイン</span>
-            <span>ファシリテーション</span>
-            <span>公共政策</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="work-card" data-category="branding web">
-        <div class="work-number">03</div>
-        <div class="work-body">
-          <span class="work-cat-label">Branding / Web</span>
-          <h2 class="work-title">都内私立大学 大学院<br>リブランディング・WEBリニューアル</h2>
-          <p class="work-desc">
-            大学院のリブランディングにともなうWEBサイト全面リニューアルのディレクションを担当。パーパス・ビジョンの言語化から情報設計、デザイン監修、コンテンツ制作まで一貫して関与。在学生・研究者・社会人学生それぞれの文脈を統合するUXを設計。
-          </p>
-          <div class="work-tags">
-            <span>ブランディング</span>
-            <span>UXデザイン</span>
-            <span>WEBディレクション</span>
-            <span>パーパス策定</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="work-card featured" data-category="exhibition">
-        <div class="work-number">04</div>
-        <div class="work-body">
-          <span class="work-cat-label">Exhibition / 国立研究開発法人</span>
-          <h2 class="work-title">関西・大阪万博 期間展示<br>クリエイティブディレクション</h2>
-          <p class="work-desc">
-            2025年大阪・関西万博における国立研究開発法人の展示プロジェクトのクリエイティブディレクションを担当。研究の社会的意義をどう来場者に届けるかというコンセプト設計から、展示物のコンテンツ設計、空間演出の監修まで。科学と社会をつなぐ「解釈のデザイン」を実践。
-          </p>
-          <div class="work-tags">
-            <span>展示デザイン</span>
             <span>クリエイティブディレクション</span>
             <span>コンテンツ設計</span>
             <span>万博2025</span>
           </div>
+          <a href="https://mtrl.com/magazine/cybernetic_being_life_expo2025" target="_blank" rel="noopener noreferrer" class="work-link">記事を見る →</a>
         </div>
       </article>
 
-      <article class="work-card" data-category="branding">
+      <article class="work-card" data-category="exhibition" data-year="2025">
+        <div class="work-number">02</div>
+        <div class="work-body">
+          <span class="work-cat-label">Exhibition / 大阪万博2025</span>
+          <h2 class="work-title">ムーンショットパーク<br>〜見て！触れて！感じる！新・未来〜</h2>
+          <p class="work-desc">
+            2025年大阪・関西万博にて、JST ムーンショット型研究開発事業の7つの目標を紹介する常設展示のクリエイティブディレクション。7月23日〜8月31日に週替わり14テーマで展開するインタラクティブ体験を設計・統括。「見て・触れて・感じる」をコンセプトに科学技術の未来を来場者に届ける。
+          </p>
+          <div class="work-tags">
+            <span>クリエイティブディレクション</span>
+            <span>展示設計</span>
+            <span>万博2025</span>
+          </div>
+          <a href="https://mtrl.com/magazine/jst_moonshot_park" target="_blank" rel="noopener noreferrer" class="work-link">記事を見る →</a>
+        </div>
+      </article>
+
+      <div class="year-marker" data-for-year="2024">2024</div>
+
+      <article class="work-card" data-category="branding web" data-year="2024">
+        <div class="work-number">03</div>
+        <div class="work-body">
+          <span class="work-cat-label">Branding / Web</span>
+          <h2 class="work-title">慶應義塾大学大学院KMD<br>ブランドリニューアル・WEBリニューアル</h2>
+          <p class="work-desc">
+            設立15年以上を経てアイデンティティ再定義を迫られた慶應義塾大学大学院メディアデザイン研究科（KMD）のリニューアル。MVVC（ミッション・ビジョン・バリュー・クレド）策定、タグライン「Design by Action」の言語化、特設サイト制作のプロジェクトマネジメントを担当。2026年4月の組織変革に向けた新ブランド軸を構築（2023/11〜2024/9）。
+          </p>
+          <div class="work-tags">
+            <span>プロジェクトマネジメント</span>
+            <span>ブランディング</span>
+            <span>WEBディレクション</span>
+          </div>
+          <a href="https://loftwork.com/jp/project/kmd-renewal" target="_blank" rel="noopener noreferrer" class="work-link">記事を見る →</a>
+        </div>
+      </article>
+
+      <article class="work-card" data-category="research" data-year="2024">
+        <div class="work-number">04</div>
+        <div class="work-body">
+          <span class="work-cat-label">Interview / MTRL</span>
+          <h2 class="work-title">AIとMTRLクリエイティブ<br>これからのものづくりを考える</h2>
+          <p class="work-desc">
+            AIがクリエイティブの現場にどう関わるか、MTRLクリエイティブディレクターとしての視点からインタビューに応答。「最終的な決定と行動は人間に残る。しかしその背後にAIの影響が入る可能性があり、それをどう受け入れるかが鍵」という考え方を語る。
+          </p>
+          <div class="work-tags">
+            <span>AI</span>
+            <span>クリエイティブ</span>
+            <span>インタビュー</span>
+          </div>
+          <a href="https://mtrl.com/magazine/ai-mtrl-interview" target="_blank" rel="noopener noreferrer" class="work-link">インタビューを読む →</a>
+        </div>
+      </article>
+
+      <div class="year-marker" data-for-year="2023">2023</div>
+
+      <article class="work-card" data-category="branding rd" data-year="2023">
         <div class="work-number">05</div>
         <div class="work-body">
-          <span class="work-cat-label">Branding</span>
-          <h2 class="work-title">大手自動車メーカー<br>ブランディング戦略支援</h2>
+          <span class="work-cat-label">Branding / R&D</span>
+          <h2 class="work-title">日産自動車 DRIVE MYSELF PROJECT<br>Z世代とのブランドプロミス共創</h2>
           <p class="work-desc">
-            自動車メーカーのコーポレートブランド刷新プロジェクトに参画。EVシフト・モビリティサービス化という事業転換を背景に、ブランドアイデンティティの再定義と、各ステークホルダー向けのコミュニケーション戦略の策定を支援。
+            日産のブランドプロミス「Innovation for Excitement」をZ世代に届けるため、「暮らし方のプロトタイピング」「移動体験をデザインするアイデアソン」「身近な発明チャレンジ」の3施策をクリエイティブディレクション。若年層との共創を通じ、ブランド価値探索とコミュニケーション機会を創出。
           </p>
           <div class="work-tags">
-            <span>ブランド戦略</span>
-            <span>コミュニケーション設計</span>
-            <span>ワークショップ</span>
+            <span>クリエイティブディレクション</span>
+            <span>ブランディング</span>
+            <span>アイデアソン</span>
           </div>
+          <a href="https://loftwork.com/jp/project/nissan-drive-myself-project" target="_blank" rel="noopener noreferrer" class="work-link">記事を見る →</a>
         </div>
       </article>
 
-      <article class="work-card" data-category="rd">
+      <article class="work-card" data-category="research" data-year="2023">
         <div class="work-number">06</div>
         <div class="work-body">
-          <span class="work-cat-label">R&D / 新規事業</span>
-          <h2 class="work-title">大手電子部品メーカー<br>新規事業開発支援</h2>
+          <span class="work-cat-label">Research / 社内活動</span>
+          <h2 class="work-title">Culture Design Lab<br>「批評とクリエイティブの関係を探る」</h2>
           <p class="work-desc">
-            電子部品メーカーの新規事業探索プロジェクトを支援。既存の材料・技術資産をベースに新たな市場機会を見出すシーズ起点の事業開発プロセスを設計し、社内新規事業チームのファシリテーション・プロトタイピング支援を実施。
-          </p>
-          <div class="work-tags">
-            <span>新規事業開発</span>
-            <span>シーズ探索</span>
-            <span>プロトタイピング</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="work-card" data-category="rd">
-        <div class="work-number">07</div>
-        <div class="work-body">
-          <span class="work-cat-label">Event / MTRL</span>
-          <h2 class="work-title">Material Meetup TOKYO vol.17<br>開会講演・企画運営</h2>
-          <p class="work-desc">
-            2023年11月、FabCafe Tokyoにて開催された素材とイノベーションをテーマにした勉強会を企画・運営。「身体化と拡張――身体・日常に溶け込むテクノロジー」と題した基調講演を担当。参加者間の対話と素材体験を組み合わせたコンテンツ設計を実施。
-          </p>
-          <div class="work-tags">
-            <span>イベント企画</span>
-            <span>素材イノベーション</span>
-            <span>講演</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="work-card" data-category="hr">
-        <div class="work-number">08</div>
-        <div class="work-body">
-          <span class="work-cat-label">Research / Culture Design Lab</span>
-          <h2 class="work-title">批評とクリエイティブの関係を探る<br>社内スタディグループ創設</h2>
-          <p class="work-desc">
-            2023年3月、ロフトワーク内に「Culture Design Lab」を立ち上げ。人文学・文芸批評の知見をデザイン・クリエイティブ領域に接続するための自主的な研究活動として、早稲田大学で培った文芸批評の視点から現代クリエイティブを再考する場を設計・運営。
+            早稲田大学で培った文芸批評・西洋哲学の知見をデザイン・クリエイティブ領域に接続するための社内スタディグループを企画・立ち上げ。「名探偵コナン」「アンパンマン」を題材に文学批評の手法を実践的に学ぶ場を設計し、「理由に基づいた価値づけ」としての批評スキルをクリエイターに還元。
           </p>
           <div class="work-tags">
             <span>文化批評</span>
             <span>リサーチ</span>
-            <span>自主活動</span>
+            <span>ファシリテーション</span>
           </div>
+          <a href="https://loftwork.com/jp/finding/culture-design-lab-01" target="_blank" rel="noopener noreferrer" class="work-link">記事を見る →</a>
+        </div>
+      </article>
+
+      <article class="work-card" data-category="rd" data-year="2023">
+        <div class="work-number">07</div>
+        <div class="work-body">
+          <span class="work-cat-label">R&D / 広報映像</span>
+          <h2 class="work-title">JSTムーンショット研究開発事業<br>若者共創 広報映像制作</h2>
+          <p class="work-desc">
+            国立研究開発法人 科学技術振興機構（JST）のムーンショット型研究開発事業において、「サイバネティック・アバター技術で身体・脳・空間・時間の制約から解放された社会」をテーマに若者世代と共創する広報映像プロジェクトをクリエイティブディレクション。中学生〜大学生とのワークショップを設計・運営し、未来社会の情景を映像化。
+          </p>
+          <div class="work-tags">
+            <span>クリエイティブディレクション</span>
+            <span>若者共創</span>
+            <span>映像制作</span>
+          </div>
+          <a href="https://loftwork.com/jp/project/jst-moonshot01-movies" target="_blank" rel="noopener noreferrer" class="work-link">記事を見る →</a>
+        </div>
+      </article>
+
+      <div class="year-marker" data-for-year="2020">2020</div>
+
+      <article class="work-card" data-category="media" data-year="2020">
+        <div class="work-number">08</div>
+        <div class="work-body">
+          <span class="work-cat-label">Media / 映像制作</span>
+          <h2 class="work-title">KORG Live Extreme<br>高音質ライブ配信イベント制作</h2>
+          <p class="work-desc">
+            株式会社コルグが開発した業界最高水準のインターネット高音質配信システム「KORG Live Extreme」を活用した音楽ライブ配信イベントの制作・技術サポートを担当。ロスレス・ハイレゾオーディオ（最大PCM 384kHz/24bit）によるライブ映像配信を実現。映像制作会社在籍時のプロジェクト。
+          </p>
+          <div class="work-tags">
+            <span>映像制作</span>
+            <span>配信技術</span>
+            <span>音楽</span>
+          </div>
+          <a href="https://directions.jp/works/liveextreme/" target="_blank" rel="noopener noreferrer" class="work-link">記事を見る →</a>
         </div>
       </article>
 
@@ -170,7 +215,7 @@
   </main>
 
   <footer class="footer">
-    <p>© 2025 Sekimoto Takeaki</p>
+    <p>© 2026 Sekimoto Takeaki</p>
   </footer>
 
   <script src="js/main.js"></script>

@@ -3,6 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function(){
+      if(sessionStorage.getItem('auth')==='ok') return;
+      document.addEventListener('DOMContentLoaded', function(){
+        var overlay = document.createElement('div');
+        overlay.id = 'auth-overlay';
+        overlay.style.cssText = 'position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;font-family:sans-serif;gap:12px;';
+        overlay.innerHTML = '<p style="font-size:14px;color:#333;margin:0 0 8px;">このサイトはパスワードで保護されています</p>'
+          + '<input id="auth-user" type="text" placeholder="ユーザー名" style="padding:8px 12px;border:1px solid #ccc;border-radius:4px;font-size:14px;width:220px;">'
+          + '<input id="auth-pass" type="password" placeholder="パスワード" style="padding:8px 12px;border:1px solid #ccc;border-radius:4px;font-size:14px;width:220px;">'
+          + '<button id="auth-btn" style="padding:8px 24px;background:#222;color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer;">入る</button>'
+          + '<p id="auth-err" style="color:red;font-size:12px;margin:0;display:none;">ユーザー名またはパスワードが違います</p>';
+        document.body.appendChild(overlay);
+        function check(){
+          var u = document.getElementById('auth-user').value;
+          var p = document.getElementById('auth-pass').value;
+          if(u==='goodpatch' && p==='goodpatch'){
+            sessionStorage.setItem('auth','ok');
+            overlay.remove();
+          } else {
+            document.getElementById('auth-err').style.display='block';
+          }
+        }
+        document.getElementById('auth-btn').addEventListener('click', check);
+        document.getElementById('auth-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') check(); });
+      });
+    })();
+  </script>
   <title>関本 武晃 | SEKIMOTO TAKEAKI</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +51,7 @@
     <div class="hero">
       <div class="hero-image-wrap">
         <div class="hero-image-placeholder">
-          <div class="initials">ST</div>
+          <img src="img/profile.jpg" alt="関本 武晃" loading="eager">
         </div>
       </div>
 
@@ -125,7 +153,7 @@
   </main>
 
   <footer class="footer">
-    <p>© 2025 Sekimoto Takeaki</p>
+    <p>© 2026 Sekimoto Takeaki</p>
   </footer>
 
   <script src="js/main.js"></script>
